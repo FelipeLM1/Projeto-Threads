@@ -74,4 +74,27 @@ public class Imagem {
             System.out.println(" ");
         }
     }
+
+    /**
+     * Método que realiza o alargamento de contraste da imagem fornecida
+     * @param matrizCinza
+     */
+    public void alargarContraste(int[][] matrizCinza){
+        int iMax = 0;
+        int iMin = 255;
+        int [][] matrizContraste = new int[this.largura][this.altura];
+
+        for (int i = 0; i < (this.largura)-1; i++) {
+            for (int j = 0; j < (this.altura)-1; j++){
+                if (matrizCinza[i][j] > iMax) {
+                    iMax = matrizCinza[i][j];
+                } else if(matrizCinza[i][j] < iMin) {
+                    iMin = matrizCinza[i][j];
+                }
+            }
+        }
+
+        System.out.println("Imaior = "+iMax);
+        System.out.println("Imenor = "+iMin);
+    }
 }

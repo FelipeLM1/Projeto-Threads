@@ -20,10 +20,11 @@ public class App {
             //Gerando a matriz de cinza e exibindo
             int[][] matrizCinza = imagem.getMatrizCinza(img);
             imagem.printMatrizCinza(matrizCinza);
+            imagem.alargarContraste(matrizCinza);
             
             MatrizParaImg matrizParaImg = new MatrizParaImg();
             BufferedImage imgOut = matrizParaImg.setPixelEscalaDeCinza(matrizCinza);
-            ImageIO.write(imgOut, "jpg", new File("/home/thuize/Documentos/UFRN/Projeto-Threads/src/balloons.png"));
+            ImageIO.write(imgOut, "jpg", new File("/home/thuize/Documentos/UFRN/Projeto-Threads/src/out.jpg"));
             //ImageIO.write(imgOut, "jpg", new File("C:\\Users\\Programação\\Desktop\\Threads - Projeto\\Projeto-Threads\\src\\out.jpg"));
             System.out.println("Imagem criada");
 
