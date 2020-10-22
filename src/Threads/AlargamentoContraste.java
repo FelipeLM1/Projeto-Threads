@@ -27,8 +27,8 @@ public class AlargamentoContraste implements Runnable {
 
         try {
             ImageIO.write(imagemSaida, "jpg", new File("C:\\Users\\Programação\\Desktop\\Threads - Projeto\\Projeto-Threads\\src\\out1.jpg"));
-            System.out.println("Imagem Com alargamento de Contraste Criada!");
             //ImageIO.write(imagemSaida, "jpg", new File("/home/thuize/Documentos/UFRN/Projeto-Threads/src/out.jpg"));
+            System.out.println("Imagem Com alargamento de Contraste Criada!");
         } catch (IOException e) {
             e.printStackTrace();
         }
