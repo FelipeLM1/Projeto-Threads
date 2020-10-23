@@ -1,6 +1,5 @@
 import Threads.AlargamentoContraste;
 import Threads.EqualizacaoHistograma;
-import classes.Imagem;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
