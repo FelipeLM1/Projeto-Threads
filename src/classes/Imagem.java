@@ -153,7 +153,7 @@ public class Imagem {
      * @return
      */
     public int[] calcularHistograma(int[][] mtzImg) {
-        int[] histograma = new int[255];
+        int[] histograma = new int[256];
         for (int i = 0; i < histograma.length; i++) {
             histograma[i] = 0;
         }
@@ -201,7 +201,7 @@ public class Imagem {
      * @return
      */
     public double[] calcularProbabilidadeAcumulada(double[] probabilidade) {
-        double[] probabilidadeAcumulada = new double[255];
+        double[] probabilidadeAcumulada = new double[256];
         //inicializa o vetor com zeros
         for (int i = 0; i < probabilidadeAcumulada.length; i++) {
             probabilidadeAcumulada[i] = 0;
