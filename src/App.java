@@ -9,16 +9,17 @@ import java.io.IOException;
 public class App {
     public static void main(String[] args) {
 
-        try {
-            //String pathImg = "/home/thuize/Documentos/UFRN/Projeto-Threads/src/balloons.png";
-            String pathImg = "C:\\Users\\Programação\\Desktop\\Threads - Projeto\\Projeto-Threads\\src\\balloons.png";
-            BufferedImage img = ImageIO.read(new File(pathImg));
+        //String localImgEntrada = "/home/thuize/Documentos/UFRN/Projeto-Threads/src/balloons.png";
+        String localImgEntrada = "C:\\Users\\Programação\\Desktop\\Threads - Projeto\\Projeto-Threads\\src\\balloons.png";
 
-            AlargamentoContraste thread1 = new AlargamentoContraste(img);
-            EqualizacaoHistograma thread2 = new EqualizacaoHistograma(img);
+        String localImgSaida1 = "C:\\Users\\Programação\\Desktop\\Threads - Projeto\\Projeto-Threads\\src\\thread1.jpg";
+        //String localImgSaida = "/home/thuize/Documentos/UFRN/Projeto-Threads/src/out.jpg";
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String localImgSaida2 = "C:\\Users\\Programação\\Desktop\\Threads - Projeto\\Projeto-Threads\\src\\thread2.jpg";
+        //String localImgSaida = "/home/thuize/Documentos/UFRN/Projeto-Threads/src/out.jpg";
+        
+        AlargamentoContraste thread1 = new AlargamentoContraste(localImgEntrada, localImgSaida1);
+        EqualizacaoHistograma thread2 = new EqualizacaoHistograma(localImgEntrada, localImgSaida2);
+
     }
 }

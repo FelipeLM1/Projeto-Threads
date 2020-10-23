@@ -15,6 +15,7 @@ public class Imagem {
      * @param img
      */
     public Imagem(BufferedImage img) {
+        imagem = img;
         setLargura(img.getWidth());
         setAltura(img.getHeight());
     }
@@ -28,6 +29,8 @@ public class Imagem {
      * Representa a altura da imagem
      */
     private int altura;
+
+    private BufferedImage imagem;
 
     public int getLargura() {
         return largura;
@@ -80,11 +83,31 @@ public class Imagem {
     }
 
     /**
+     * Método para transformar uma matriz em imagem
+     *
+     * @param mtzImg
+     * @return imagem
+     */
+    public BufferedImage matrizParaImg(int[][] mtzImg) {
+
+        //criando uma objeto BufferedImage a partir das dimensões da imagem representada pela matriz
+        BufferedImage image = new BufferedImage(this.largura, this.altura, BufferedImage.TYPE_BYTE_GRAY);
+
+        WritableRaster raster = image.getRaster();
+        for (int i = 0; i < this.largura; i++) {
+            for (int j = 0; j < this.altura; j++) {
+                raster.setSample(i, j, 0, mtzImg[i][j]);
+            }
+        }
+        return image;
+    }
+
+    /**
      * Método que realiza o alargamento de contraste da imagem fornecida
      *
      * @param matrizCinza
      */
-    public int[][] alargarContraste(int[][] matrizCinza) {
+    public int[][] calculoParaAlargarContraste(int[][] matrizCinza) {
         int iMax = 0;
         int iMin = 255;
         int[][] matrizContraste = new int[this.largura][this.altura];
@@ -109,24 +132,18 @@ public class Imagem {
     }
 
     /**
-     * Método para transformar uma matriz em imagem
+     * Metodo para alargar o contraste de uma imagem
      *
-     * @param mtzImg
-     * @return imagem
+     * @return
      */
-    public BufferedImage matrizParaImg(int[][] mtzImg) {
-
-        //criando uma objeto BufferedImage a partir das dimensões da imagem representada pela matriz
-        BufferedImage image = new BufferedImage(this.largura, this.altura, BufferedImage.TYPE_BYTE_GRAY);
-
-        WritableRaster raster = image.getRaster();
-        for (int i = 0; i < this.largura; i++) {
-            for (int j = 0; j < this.altura; j++) {
-                raster.setSample(i, j, 0, mtzImg[i][j]);
-            }
-        }
-        return image;
+    public BufferedImage alargarContraste() {
+        Imagem foto = new Imagem(this.imagem);
+        int[][] matrizCinza = foto.getMatrizCinza(this.imagem);
+        int[][] matrizComContraste = calculoParaAlargarContraste(matrizCinza);
+        BufferedImage imagemSaida = foto.matrizParaImg(matrizComContraste);
+        return imagemSaida;
     }
+
 
     /**
      * Faz a contagem de pixels para cada um dos 256 níveis de
@@ -202,6 +219,13 @@ public class Imagem {
         return probabilidadeAcumulada;
     }
 
+    /**
+     * Calculo feito para fazer a Equalização de Histograma
+     *
+     * @param matrizImg
+     * @param probabilidadeAcumulada
+     * @return
+     */
     public int[][] calculaEqualizacaoHistograma(int[][] matrizImg, double[] probabilidadeAcumulada) {
         int[][] matrizSaida = new int[this.largura][this.altura];
 
@@ -219,5 +243,21 @@ public class Imagem {
         return matrizSaida;
     }
 
+    /**
+     * Método para fazer a equalização de histograma de uma imagem
+     *
+     * @return
+     */
+    public BufferedImage equalizarHistograma() {
 
+        Imagem imagem = new Imagem(this.imagem);
+        int[][] matrizCinza = imagem.getMatrizCinza(this.imagem);
+        int[] histograma = imagem.calcularHistograma(matrizCinza);
+        double[] probabilidades = imagem.calcularProbabilidadeCinza(histograma);
+        double[] probabilidadeAcumulada = imagem.calcularProbabilidadeAcumulada(probabilidades);
+        int[][] matrizSaida = imagem.calculaEqualizacaoHistograma(matrizCinza, probabilidadeAcumulada);
+        BufferedImage imagemSaida = imagem.matrizParaImg(matrizSaida);
+
+        return imagemSaida;
+    }
 }

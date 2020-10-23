@@ -9,30 +9,32 @@ import java.io.IOException;
 
 public class AlargamentoContraste implements Runnable {
 
-    private BufferedImage foto;
+    private String localImgSaida;
+    private String localImgEntrada;
 
-    public AlargamentoContraste(BufferedImage foto) {
-        this.foto = foto;
+    public AlargamentoContraste(String localImgEntrada, String localImgSaida) {
+        this.localImgEntrada = localImgEntrada;
+        this.localImgSaida = localImgSaida;
         Thread t = new Thread(this);
         t.start();
     }
 
     @Override
     public void run() {
-        Imagem imagem = new Imagem(this.foto);
-        System.out.println("Thread - AlargamentoContraste");
-        int[][] matrizCinza = imagem.getMatrizCinza(foto);
-        int[][] matrizComAlargamentoDeContraste = imagem.alargarContraste(matrizCinza);
-        BufferedImage imagemSaida = imagem.matrizParaImg(matrizComAlargamentoDeContraste);
+
+        System.out.println("Thread Alargamento de Contraste Iniciada!");
 
         try {
-            ImageIO.write(imagemSaida, "jpg", new File("C:\\Users\\Programação\\Desktop\\Threads - Projeto\\Projeto-Threads\\src\\teste1.jpg"));
-            //ImageIO.write(imagemSaida, "jpg", new File("/home/thuize/Documentos/UFRN/Projeto-Threads/src/out.jpg"));
+            BufferedImage img = ImageIO.read(new File(this.localImgEntrada));
+            Imagem imagem = new Imagem(img);
+            BufferedImage imagemSaida = imagem.alargarContraste();
+            ImageIO.write(imagemSaida, "jpg", new File(this.localImgSaida));
             System.out.println("Imagem Com alargamento de Contraste Criada!");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        System.out.println("FIM DA THREAD ALARGAMENTO");
+        System.out.println("Thread Alargamento de Contraste Finalizada!");
     }
 }

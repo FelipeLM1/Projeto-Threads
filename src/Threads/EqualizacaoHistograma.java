@@ -9,34 +9,31 @@ import java.io.IOException;
 
 public class EqualizacaoHistograma implements Runnable {
 
-    private BufferedImage foto;
+    private String localImgSaida;
+    private String localImgEntrada;
 
-    public EqualizacaoHistograma(BufferedImage foto) {
-        this.foto = foto;
+    public EqualizacaoHistograma(String localImgEntrada, String localImgSaida) {
+        this.localImgEntrada = localImgEntrada;
+        this.localImgSaida = localImgSaida;
         Thread t = new Thread(this);
         t.start();
     }
 
     @Override
     public void run() {
-        System.out.println("Thread - EqualizacaoHistograma");
-        Imagem imagem = new Imagem(this.foto);
-        int[][] matrizCinza = imagem.getMatrizCinza(foto);
-        int[] histograma = imagem.calcularHistograma(matrizCinza);
-        double[] probabilidades = imagem.calcularProbabilidadeCinza(histograma);
-        double[] probabilidadeAcumulada = imagem.calcularProbabilidadeAcumulada(probabilidades);
-        int[][] matrizSaida = imagem.calculaEqualizacaoHistograma(matrizCinza, probabilidadeAcumulada);
 
-        BufferedImage imagemSaida = imagem.matrizParaImg(matrizSaida);
-
+        System.out.println("Thread Equalização de Histograma Iniciada!");
         try {
-            ImageIO.write(imagemSaida, "jpg", new File("C:\\Users\\Programação\\Desktop\\Threads - Projeto\\Projeto-Threads\\src\\teste2.jpg"));
-            //ImageIO.write(imagemSaida, "jpg", new File("/home/thuize/Documentos/UFRN/Projeto-Threads/src/out.jpg"));
+            BufferedImage img = ImageIO.read(new File(this.localImgEntrada));
+            Imagem imagem = new Imagem(img);
+            BufferedImage imagemSaida = imagem.equalizarHistograma();
+            ImageIO.write(imagemSaida, "jpg", new File(localImgSaida));
             System.out.println("Imagem Com Equalização de Histograma criada!");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        System.out.println("FIM THREAD - EQUALIZAÇÃO ");
+        System.out.println("Thread Equalização de Histograma Finalizada!");
     }
 }
